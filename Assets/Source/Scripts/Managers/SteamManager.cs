@@ -37,11 +37,15 @@ public class SteamManager : MonoBehaviour
     
     private void OnLobbyMemberJoined(Lobby lobby, Friend friend)
     {
+        Debug.Log($"{friend.Name} joined to Lobby");
     }
     
     private void OnLobbyMemberLeave(Lobby lobby, Friend friend)
     {
+        Debug.Log($"{friend.Name} left from Lobby");
     }
+    
+    private void OnGameLobbyJoinRequestedHandler(Lobby lobby, SteamId id) => StartClient(id);
     #endregion
     
     #region Network Callbacks
@@ -115,6 +119,7 @@ public class SteamManager : MonoBehaviour
         SteamMatchmaking.OnLobbyEntered += OnLobbyEntered;
         SteamMatchmaking.OnLobbyMemberJoined += OnLobbyMemberJoined;
         SteamMatchmaking.OnLobbyMemberLeave += OnLobbyMemberLeave;
+        SteamFriends.OnGameLobbyJoinRequested += OnGameLobbyJoinRequestedHandler;
     }
 
     private void OnDestroy()
@@ -123,6 +128,7 @@ public class SteamManager : MonoBehaviour
         SteamMatchmaking.OnLobbyEntered -= OnLobbyEntered;
         SteamMatchmaking.OnLobbyMemberJoined -= OnLobbyMemberJoined;
         SteamMatchmaking.OnLobbyMemberLeave -= OnLobbyMemberLeave;
+        SteamFriends.OnGameLobbyJoinRequested -= OnGameLobbyJoinRequestedHandler;
     }
 
     private void OnApplicationQuit() => Disconnect();
